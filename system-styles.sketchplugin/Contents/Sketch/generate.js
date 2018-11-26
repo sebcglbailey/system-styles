@@ -108,33 +108,33 @@ __webpack_require__.r(__webpack_exports__);
 
 var docs = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.getDocuments();
 var doc = docs[0];
-var page = doc.pages[0]; // const doc = Sketch.getSelectedDocument()
-
+var page = doc.pages[0];
 var layers = doc ? doc.selectedLayers.layers : null;
 var textLayers = [];
 var shapeLayers = [];
-var styleRefs = []; // Function to run on running the plugin
+var styleRefs = [];
+var existingStyles; // Function to run on running the plugin
 
 /* harmony default export */ __webpack_exports__["default"] = (function (context) {
   doc = sketch__WEBPACK_IMPORTED_MODULE_0___default.a.fromNative(context.document);
+  layers = doc ? doc.selectedLayers.layers : null;
+  existingStyles = doc.getSharedTextStyles();
 
   if (!layers) {
     sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("Nothing selected 🤦‍♀️");
     return;
-  }
+  } // page = doc.pages.filter((page) => {
+  //   return page.name == "Generated Styles"
+  // })
+  // if (page.length == 0) {
+  //   page = new SketchDOM.Page({
+  //     parent: doc,
+  //     name: "Generated Styles"
+  //   })
+  // } else {
+  //   page = page[0]
+  // }
 
-  page = doc.pages.filter(function (page) {
-    return page.name == "Styles";
-  });
-
-  if (page.length == 0) {
-    page = new sketch_dom__WEBPACK_IMPORTED_MODULE_1___default.a.Page({
-      parent: doc,
-      name: "Styles"
-    });
-  } else {
-    page = page[0];
-  }
 
   layers.forEach(function (layer) {
     if (layer.type == "Text") {
@@ -213,14 +213,14 @@ var createStyle = function createStyle(name, textRef, shapeRef) {
     newText.style = textRef.style;
   } else {
     newText = new sketch_dom__WEBPACK_IMPORTED_MODULE_1___default.a.Text({
-      parent: page,
-      text: name,
+      // parent: page,
+      // text: name,
       name: name,
-      style: textRef.style,
-      frame: {
-        x: 0,
-        y: page.layers.length > 0 ? page.layers[page.layers.length - 1].frame.y + page.layers[page.layers.length - 1].frame.height + 20 : 0
-      }
+      style: textRef.style // frame: {
+      // x: 0,
+      // y: page.layers.length > 0 ? page.layers[page.layers.length-1].frame.y + page.layers[page.layers.length-1].frame.height + 20 : 0
+      // }
+
     });
   }
 
@@ -230,20 +230,14 @@ var createStyle = function createStyle(name, textRef, shapeRef) {
     newText.alignment = "right";
   } else if (name.includes("03 Center")) {
     newText.alignment = "center";
-  }
+  } // let color = shapeRef && shapeRef.style.fills[0] ? shapeRef.style.fills[0].color
+  //             : textRef.style._object.primitiveTextStyle().attributes().MSAttributedStringColorAttribute
+  // color = shapeRef ? hexToRgba(color) : MSColorStringToRgba(color)
 
-  var color = shapeRef && shapeRef.style.fills[0] ? shapeRef.style.fills[0].color : textRef.style._object.primitiveTextStyle().attributes().MSAttributedStringColorAttribute;
-  color = shapeRef ? hexToRgba(color) : MSColorStringToRgba(color);
+
   var immutableColor = MSImmutableColor.colorWithSVGString_(shapeRef.style.fills[0].color);
-  var newColor = MSColor.alloc().initWithImmutableObject_(immutableColor); // let textColor = MSImmutableColor.colorWithRed_green_blue_alpha(color.r, color.g, color.b, color.a)
-  // newText.style._object.textStyle().encodedAttributes().MSAttributedStringColorAttribute.red = textColor.red()
-  // newText.style._object.textStyle().encodedAttributes().MSAttributedStringColorAttribute.green = textColor.green()
-  // newText.style._object.textStyle().encodedAttributes().MSAttributedStringColorAttribute.blue = textColor.blue()
-  // newText.style._object.textStyle().encodedAttributes().MSAttributedStringColorAttribute.alpha = textColor.alpha()
-
+  var newColor = MSColor.alloc().initWithImmutableObject_(immutableColor);
   newText.sketchObject.setTextColor(newColor);
-  console.log(newColor);
-  var existingStyles = doc.getSharedTextStyles();
   var existing = existingStyles.filter(function (style) {
     return style.name == name;
   })[0];

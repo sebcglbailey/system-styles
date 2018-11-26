@@ -5,34 +5,37 @@ const docs = Sketch.getDocuments()
 let doc = docs[0]
 let page = doc.pages[0]
 
-// const doc = Sketch.getSelectedDocument()
-const layers = doc ? doc.selectedLayers.layers : null
+let layers = doc ? doc.selectedLayers.layers : null
 
 let textLayers = []
 let shapeLayers = []
 let styleRefs = []
 
+let existingStyles;
+
 // Function to run on running the plugin
 export default (context) => {
 
   doc = Sketch.fromNative(context.document)
+  layers = doc ? doc.selectedLayers.layers : null
+  existingStyles = doc.getSharedTextStyles()
 
   if (!layers) {
     Sketch.UI.message("Nothing selected 🤦‍♀️")
     return
   }
 
-  page = doc.pages.filter((page) => {
-    return page.name == "Styles"
-  })
-  if (page.length == 0) {
-    page = new SketchDOM.Page({
-      parent: doc,
-      name: "Styles"
-    })
-  } else {
-    page = page[0]
-  }
+  // page = doc.pages.filter((page) => {
+  //   return page.name == "Generated Styles"
+  // })
+  // if (page.length == 0) {
+  //   page = new SketchDOM.Page({
+  //     parent: doc,
+  //     name: "Generated Styles"
+  //   })
+  // } else {
+  //   page = page[0]
+  // }
 
   layers.forEach((layer) => {
     if (layer.type == "Text") {
@@ -120,14 +123,14 @@ const createStyle = (name, textRef, shapeRef) => {
     newText.style = textRef.style
   } else {
     newText = new SketchDOM.Text({
-      parent: page,
-      text: name,
+      // parent: page,
+      // text: name,
       name: name,
       style: textRef.style,
-      frame: {
-        x: 0,
-        y: page.layers.length > 0 ? page.layers[page.layers.length-1].frame.y + page.layers[page.layers.length-1].frame.height + 20 : 0
-      }
+      // frame: {
+        // x: 0,
+        // y: page.layers.length > 0 ? page.layers[page.layers.length-1].frame.y + page.layers[page.layers.length-1].frame.height + 20 : 0
+      // }
     })
   }
 
@@ -139,24 +142,16 @@ const createStyle = (name, textRef, shapeRef) => {
     newText.alignment = "center"
   }
 
-  let color = shapeRef && shapeRef.style.fills[0] ? shapeRef.style.fills[0].color
-              : textRef.style._object.primitiveTextStyle().attributes().MSAttributedStringColorAttribute
+  // let color = shapeRef && shapeRef.style.fills[0] ? shapeRef.style.fills[0].color
+  //             : textRef.style._object.primitiveTextStyle().attributes().MSAttributedStringColorAttribute
   
-  color = shapeRef ? hexToRgba(color) : MSColorStringToRgba(color)
+  // color = shapeRef ? hexToRgba(color) : MSColorStringToRgba(color)
 
   let immutableColor = MSImmutableColor.colorWithSVGString_(shapeRef.style.fills[0].color);
   let newColor = MSColor.alloc().initWithImmutableObject_(immutableColor);
 
-  // let textColor = MSImmutableColor.colorWithRed_green_blue_alpha(color.r, color.g, color.b, color.a)
-  // newText.style._object.textStyle().encodedAttributes().MSAttributedStringColorAttribute.red = textColor.red()
-  // newText.style._object.textStyle().encodedAttributes().MSAttributedStringColorAttribute.green = textColor.green()
-  // newText.style._object.textStyle().encodedAttributes().MSAttributedStringColorAttribute.blue = textColor.blue()
-  // newText.style._object.textStyle().encodedAttributes().MSAttributedStringColorAttribute.alpha = textColor.alpha()
-
   newText.sketchObject.setTextColor(newColor)
-  console.log(newColor)
 
-  let existingStyles = doc.getSharedTextStyles()
   let existing = existingStyles.filter((style) => {
     return style.name == name
   })[0]

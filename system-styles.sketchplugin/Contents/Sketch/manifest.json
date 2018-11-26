@@ -17,10 +17,11 @@
     ]
   },
   "version": "0.1.0",
+  "description": "Generate all the text styles you'll need, including alignment and colour.",
   "name": "system-styles",
   "identifier": "system-styles",
   "disableCocoaScriptPreprocessor": true,
-  "appcast": "https://raw.githubusercontent.com//master/.appcast.xml",
+  "appcast": "https://raw.githubusercontent.com/sebcglbailey/sketch-system-styles/master/.appcast.xml",
   "author": "Seb Bailey",
   "authorEmail": "sebastian@clearscore.com"
 }
