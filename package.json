@@ -23,7 +23,7 @@
     "@skpm/builder": "^0.5.2"
   },
   "author": "Seb Bailey <sebastian@clearscore.com>",
-  "repository": "https://github.com/sebcglbailey/sketch-system-styles",
+  "repository": "https://github.com/sebcglbailey/system-styles",
   "dependencies": {
     "skpm": "^1.1.11"
   }
