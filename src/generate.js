@@ -38,6 +38,7 @@ export default (context) => {
   // }
 
   layers.forEach((layer) => {
+    console.log(layer.type)
     if (layer.type == "Text") {
       textLayers.push(layer)
     } else if (layer.type == "ShapePath") {
