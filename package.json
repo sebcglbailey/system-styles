@@ -1,7 +1,7 @@
 {
   "name": "cs-layou",
   "description": "Layout your artboards based on margins provided in the layer names. The plugin also offsets for capheight and baseline discrepencies.",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "engines": {
     "sketch": ">=3.0"
   },
