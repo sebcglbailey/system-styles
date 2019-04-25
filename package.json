@@ -1,14 +1,14 @@
 {
-  "name": "cs-layou",
-  "description": "Layout your artboards based on margins provided in the layer names. The plugin also offsets for capheight and baseline discrepencies.",
+  "name": "system-styles",
+  "description": "Generate styles for your design system based off a single list of text layers, and colour fills.",
   "version": "2.0.0",
   "engines": {
     "sketch": ">=3.0"
   },
   "skpm": {
-    "name": "cs-layout",
+    "name": "system-styles",
     "manifest": "src/manifest.json",
-    "main": "cs-layout.sketchplugin",
+    "main": "system-styles.sketchplugin",
     "assets": [
       "assets/**/*"
     ]
@@ -23,7 +23,7 @@
     "@skpm/builder": "^0.5.2"
   },
   "author": "Seb Bailey <sebastian@clearscore.com>",
-  "repository": "https://github.com/sebcglbailey/cs-layout",
+  "repository": "https://github.com/sebcglbailey/system-styles",
   "dependencies": {
     "skpm": "^1.1.11"
   }
