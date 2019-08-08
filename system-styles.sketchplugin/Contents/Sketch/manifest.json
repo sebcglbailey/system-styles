@@ -21,11 +21,11 @@
       "system.styles.generate"
     ]
   },
-  "version": "2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sebcglbailey/sketch-system-styles.git"
   },
+  "version": "2.1.0",
   "name": "system-styles",
   "disableCocoaScriptPreprocessor": true,
   "appcast": "https://raw.githubusercontent.com/sebcglbailey/system-styles/master/.appcast.xml"
