@@ -1,7 +1,7 @@
 {
   "name": "system-styles",
   "description": "Generate styles for your design system based off a single list of text layers, and colour fills.",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "engines": {
     "sketch": ">=3.0"
   },
